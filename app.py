@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-books = [
+data = [
     {
         'id': 1,
         'name': "Sherlok Holmes",
@@ -22,11 +22,11 @@ books = [
 
 @app.route('/books', methods=['GET'])
 def get_books():
-    return jsonify(books)
+    return jsonify(data)
 
 @app.route('/books/<int:id>', methods=['GET'])
 def get_books_id(id):
-    for book in books:
+    for book in data:
         if book.get('id') == id:
             break
     return jsonify(book)
@@ -35,25 +35,25 @@ def get_books_id(id):
 def edit_books_id(id):
     edited_book = request.get_json()
 
-    for index, book in enumerate(books):
+    for index, book in enumerate(data):
         if book.get('id') == id:
-            books[index].update(edited_book)
+            data[index].update(edited_book)
             break
-    return jsonify(books[index])
+    return jsonify(data[index])
 
 @app.route('/books', methods=['POST'])
 def add_books():
     new_book = request.get_json()
-    books.append(new_book)
+    data.append(new_book)
 
-    return jsonify(books)
+    return jsonify(data)
 
 @app.route('/books/<int:id>', methods=['DELETE'])
 def delete_books_id(id):
-    for index, book in enumerate(books):
+    for index, book in enumerate(data):
         if book.get("id") == id:
-            del books[index]
+            del data[index]
 
-    return jsonify(books)
+    return jsonify(data)
     
 app.run(port=5000, host='localhost', debug=True)
