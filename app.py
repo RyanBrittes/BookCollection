@@ -41,4 +41,11 @@ def edit_books_id(id):
             break
     return jsonify(books[index])
 
+@app.route('/books', methods=['POST'])
+def add_books():
+    new_book = request.get_json()
+    books.append(new_book)
+
+    return jsonify(books)
+
 app.run(port=5000, host='localhost', debug=True)
